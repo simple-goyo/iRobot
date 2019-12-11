@@ -1,11 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
+import { JoystickComponent } from './components/joystick/joystick.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    JoystickComponent
   ],
   imports: [
     BrowserModule

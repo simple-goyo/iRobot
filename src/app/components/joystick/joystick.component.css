@@ -1,0 +1,10 @@
+:host ::ng-deep .front {
+  width: 20px;
+  height: 20px;
+  background-color: #fff;
+}
+
+:host ::ng-deep .back {
+  background-image: url('src/assets/imgs/joystick.png') !important;
+  background-size: cover !important;
+}
