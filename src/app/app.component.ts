@@ -6,24 +6,25 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  joystickOptions = {
-    turtleBot: {
-      zone: 'turtleBotJoystick',
-      mode: 'static',
-      position: {left: '20%', top: '50%'},
-      color: 'white',
-      size: 200
-    },
-    arm: {
-      zone: 'armJoystick',
-      mode: 'static',
-      position: {left: '20%', top: '50%'},
-      color: 'white',
-      size: 200
-    }
-  };
+  homeOperation = 'turtlebot';
 
   ngOnInit(): void {
-    document.getElementById('turtleBotJoystick').style.display = 'block';
+    document.getElementById('joystick').style.display = 'block';
+    document.getElementById('armbutton').style.display = 'none';
+  }
+
+  operationChanged(e) {
+    switch (e) {
+      case 'turtlebot':
+        this.homeOperation = 'turtlebot';
+        document.getElementById('joystick').style.display = 'block';
+        document.getElementById('armbutton').style.display = 'none';
+        break;
+      case 'arm':
+        this.homeOperation = 'arm';
+        document.getElementById('joystick').style.display = 'block';
+        document.getElementById('armbutton').style.display = 'block';
+        break;
+    }
   }
 }

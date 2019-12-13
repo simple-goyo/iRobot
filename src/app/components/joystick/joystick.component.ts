@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, SimpleChanges, OnChanges} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import * as nipplejs from 'src/assets/lib/nipplejs';
 
@@ -7,8 +7,25 @@ import * as nipplejs from 'src/assets/lib/nipplejs';
   templateUrl: './joystick.component.html',
   styleUrls: ['./joystick.component.css']
 })
-export class JoystickComponent implements OnInit {
-  @Input() homeOption: any;
+export class JoystickComponent implements OnInit, OnChanges {
+  @Input() joystickMode: any;
+  joystickOption;
+  joystickOptions = {
+    turtleBot: {
+      zone: 'joystick-component',
+      mode: 'static',
+      position: {left: '20%', top: '50%'},
+      color: 'white',
+      size: 200
+    },
+    arm: {
+      zone: 'joystick-component',
+      mode: 'static',
+      position: {left: '20%', top: '50%'},
+      color: 'white',
+      size: 200
+    }
+  };
   joystick;
   options;
   time;
@@ -20,7 +37,43 @@ export class JoystickComponent implements OnInit {
   constructor(public http: HttpClient) {
   }
 
-  init() {
+  ngOnInit() {
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    switch (this.joystickMode) {
+      case 'turtlebot':
+        this.joystickOption = this.joystickOptions.turtleBot;
+        break;
+      case 'arm':
+        this.joystickOption = this.joystickOptions.arm;
+        break;
+    }
+    this.options = {
+      mode: this.joystickOption && this.joystickOption.mode || 'static',
+      size: this.joystickOption && this.joystickOption.size || 300,
+      color: this.joystickOption && this.joystickOption.color || '#eee',
+      position: this.joystickOption && this.joystickOption.position || {
+        left: '50%',
+        top: '50%'
+      },
+      zone: document.getElementById(this.joystickOption.zone)
+    };
+    if (undefined === this.joystick) {
+      this.initJoystick();
+    } else {
+      this.updateJoystick();
+    }
+  }
+
+  initJoystick() {
+    // this.joystick.destroy();
+    this.joystick = nipplejs.create(this.options);
+    this.onListen();
+  }
+
+  updateJoystick() {
+    this.joystick.destroy();
     this.joystick = nipplejs.create(this.options);
     this.onListen();
   }
@@ -70,19 +123,5 @@ export class JoystickComponent implements OnInit {
   }
 
   onEnd() {
-  }
-
-  ngOnInit() {
-    this.options = {
-      mode: this.homeOption && this.homeOption.mode || 'static',
-      size: this.homeOption && this.homeOption.size || 300,
-      color: this.homeOption && this.homeOption.color || '#eee',
-      position: this.homeOption && this.homeOption.position || {
-        left: '50%',
-        top: '50%'
-      },
-      zone: document.getElementById(this.homeOption.zone)
-    };
-    this.init();
   }
 }

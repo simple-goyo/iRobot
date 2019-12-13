@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-switchtools',
@@ -6,10 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./switchtools.component.css']
 })
 export class SwitchtoolsComponent implements OnInit {
+  @Output() public outer = new EventEmitter();
+  operationMode = '';
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  chooseTurtlebot() {
+    this.operationMode = 'turtlebot';
+    this.outer.emit(this.operationMode);
+  }
+
+  chooseArm() {
+    this.operationMode = 'arm';
+    this.outer.emit(this.operationMode);
   }
 
 }

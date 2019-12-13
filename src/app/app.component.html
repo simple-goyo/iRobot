@@ -1,7 +1,7 @@
 <div id="home">
-  <app-joystick id="turtleBotJoystick" [homeOption]="joystickOptions.turtleBot" style="display: none"></app-joystick>
-  <app-switchtools></app-switchtools>
-  <app-armbutton></app-armbutton>
+  <app-joystick id="joystick" [joystickMode]="homeOperation"></app-joystick>
+  <app-armbutton id="armbutton" style="display: none"></app-armbutton>
+  <app-switchtools (outer)="operationChanged($event)"></app-switchtools>
 </div>
 
 
