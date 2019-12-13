@@ -47,6 +47,7 @@ export class JoystickComponent implements OnInit, OnChanges {
     this.joystickOptions = {
       mode: this.oneModeSetting && this.oneModeSetting.mode || 'static',
       size: this.oneModeSetting && this.oneModeSetting.size || 300,
+      threshold: this.oneModeSetting && this.oneModeSetting.threshold || 0.1,
       color: this.oneModeSetting && this.oneModeSetting.color || '#eee',
       position: this.oneModeSetting && this.oneModeSetting.position || {
         left: '50%',
@@ -79,14 +80,10 @@ export class JoystickComponent implements OnInit, OnChanges {
         // console.log('start:', data);
         this.intervalTime = setInterval(() => {
           this.onStart(this.moveData);
-        }, 100);
+        }, 500);
       })
       .on('move', (evt, data) => {
         this.moveData = data;
-        // if (data.direction) {
-        //   this.angle = data.direction.angle;
-        //   this.distance = data.distance;
-        // }
       })
       .on('end', (evt, data) => {
         // console.log('end:', data);
@@ -116,9 +113,15 @@ export class JoystickComponent implements OnInit, OnChanges {
     const goapi = 'http://192.168.1.116:5000/go';
     const turnapi = 'http://192.168.1.116:5000/turn';
     // console.log('Left:无人机向 => ' + angle + '移动' + distance + '个单位');
-    const angle = moveData.direction.angle;
+    console.log(moveData);
+    let angle = '';
+    if (moveData.direction) {
+      angle = moveData.direction.angle;
+    } else {
+      return;
+    }
+    console.log(111111111111111111111111111111111);
     const distance = moveData.distance;
-    console.log(distance);
     const goSpeed = distance / 200;
     const turnSpeed = distance / 100;
     switch (angle) {
@@ -146,12 +149,35 @@ export class JoystickComponent implements OnInit, OnChanges {
   }
 
   armOnStart(moveData) {
-    const goapi = 'http://192.168.1.116:5000/arm1';
+    const arm1api = 'http://192.168.1.116:5000/arm1';
+    const arm5api = 'http://192.168.1.116:5000/arm5';
     // console.log('Left:无人机向 => ' + angle + '移动' + distance + '个单位');
-    const angle = moveData.direction.angle;
+    let radian = moveData.angle.radian;
+    const distance = moveData.distance;
     console.log(moveData);
-    this.http.get(goapi, {params: {angle: angle + ''}}).subscribe((response) => {
-      console.log('前进', response);
+    if (distance < 80) {
+      const pressure = moveData.pressure;
+      let angle = 0;
+      angle -= (pressure - 10) / 4;
+      if (angle < -2.5) {
+        angle = -2.5;
+      } else if (angle > 0) {
+        angle = 0;
+      }
+      document.getElementById('pressure').innerText = pressure + '==' + angle + '';
+      this.http.get(arm5api, {params: {angle: angle + ''}}).subscribe((response) => {
+        console.log('arm1', response);
+      });
+      return;
+    }
+    if (4.2 < radian && radian < 5.2817) {
+      return;
+    } else if (radian > 5.2817) {
+      radian = radian - 6.2817;
+    }
+    console.log(distance);
+    this.http.get(arm1api, {params: {angle: radian + ''}}).subscribe((response) => {
+      console.log('arm1', response);
     });
   }
 }
