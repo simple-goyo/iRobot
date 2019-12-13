@@ -13,16 +13,14 @@ export class JoystickComponent implements OnInit, OnChanges {
   joystickOptions = {
     turtleBot: {
       zone: 'joystick-component',
-      mode: 'static',
       position: {left: '20%', top: '50%'},
       color: 'white',
       size: 200
     },
     arm: {
       zone: 'joystick-component',
-      mode: 'static',
       position: {left: '20%', top: '50%'},
-      color: 'white',
+      color: '#a777e3',
       size: 200
     }
   };
@@ -42,10 +40,10 @@ export class JoystickComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     switch (this.joystickMode) {
-      case 'turtlebot':
+      case 'Turtlebot':
         this.joystickOption = this.joystickOptions.turtleBot;
         break;
-      case 'arm':
+      case 'Arm':
         this.joystickOption = this.joystickOptions.arm;
         break;
     }

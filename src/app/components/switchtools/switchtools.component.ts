@@ -15,14 +15,11 @@ export class SwitchtoolsComponent implements OnInit {
   ngOnInit() {
   }
 
-  chooseTurtlebot() {
-    this.operationMode = 'turtlebot';
+  chooseMode(e) {
+    this.operationMode = e.currentTarget.title;
     this.outer.emit(this.operationMode);
-  }
-
-  chooseArm() {
-    this.operationMode = 'arm';
-    this.outer.emit(this.operationMode);
+    document.getElementsByClassName('circle-link-clicked')[0].classList.remove('circle-link-clicked');
+    e.currentTarget.classList.add('circle-link-clicked');
   }
 
 }

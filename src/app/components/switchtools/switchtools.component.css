@@ -24,7 +24,7 @@
   transition: 1s ease-out;
 }
 
-.circle-link:hover {
+.circle-link-clicked {
   transform: translateY(-0.25rem);
   box-shadow: 0px 3px 15px rgba(89, 56, 255, 0.87);
 }

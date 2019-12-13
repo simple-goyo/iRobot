@@ -6,7 +6,7 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  homeOperation = 'turtlebot';
+  homeOperation = 'Turtlebot';
 
   ngOnInit(): void {
     document.getElementById('joystick').style.display = 'block';
@@ -15,13 +15,13 @@ export class AppComponent implements OnInit {
 
   operationChanged(e) {
     switch (e) {
-      case 'turtlebot':
-        this.homeOperation = 'turtlebot';
+      case 'Turtlebot':
+        this.homeOperation = 'Turtlebot';
         document.getElementById('joystick').style.display = 'block';
         document.getElementById('armbutton').style.display = 'none';
         break;
-      case 'arm':
-        this.homeOperation = 'arm';
+      case 'Arm':
+        this.homeOperation = 'Arm';
         document.getElementById('joystick').style.display = 'block';
         document.getElementById('armbutton').style.display = 'block';
         break;
