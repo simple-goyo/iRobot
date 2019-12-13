@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-armbutton',
@@ -6,8 +7,12 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./armbutton.component.css']
 })
 export class ArmbuttonComponent implements OnInit {
+  goapi = 'http://192.168.1.117:5000/go';
 
-  constructor() {
+  constructor(public http: HttpClient) {
+  }
+
+  ngOnInit() {
   }
 
   mousemove(e) {
@@ -40,14 +45,18 @@ export class ArmbuttonComponent implements OnInit {
 
     const dx = x - xc;
     const dy = y - yc;
-    console.log('x:', x, 'y:', y, 'xc:', xc, 'yc:', yc, 'dx', dx, 'dy', dy);
+    this.armMove(e.target.id, dx);
   }
 
   mouseup(e) {
     e.target.parentNode.style.setProperty('--tz', '-12px');
   }
 
-  ngOnInit() {
+  armMove(id, dx) {
+    this.http.get(this.goapi).subscribe((response) => {
+      console.log(response);
+    });
   }
+
 
 }

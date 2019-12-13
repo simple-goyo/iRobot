@@ -29,7 +29,7 @@ Joystick.prototype._on = function() {
   var me = this;
   this.manager
     .on('start', function (evt, data) {
-      me.time = setInterval(() => {
+      me.intervalTime = setInterval(() => {
         me.onStart && me.onStart(me.distance,me.angle);
       }, 100);
     })
