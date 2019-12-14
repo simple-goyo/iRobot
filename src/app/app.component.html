@@ -1,1 +1,7 @@
-<app-joystick></app-joystick>
+<div id="home">
+  <app-joystick id="joystick" [joystickMode]="homeOperation"></app-joystick>
+  <app-armbutton id="armbutton" style="display: none"></app-armbutton>
+  <app-switchtools (outer)="operationChanged($event)"></app-switchtools>
+</div>
+
+
