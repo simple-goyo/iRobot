@@ -20,7 +20,6 @@ export class JoystickComponent implements OnInit {
       color: 'white',
       size: 200
     });
-    document.getElementById('p').innerHTML = '<div class="sa">sdasdsa1</div>';
   }
 
 }
