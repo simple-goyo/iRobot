@@ -120,7 +120,6 @@ export class JoystickComponent implements OnInit, OnChanges {
     } else {
       return;
     }
-    console.log(111111111111111111111111111111111);
     const distance = moveData.distance;
     const goSpeed = distance / 200;
     const turnSpeed = distance / 100;
@@ -164,7 +163,7 @@ export class JoystickComponent implements OnInit, OnChanges {
       } else if (angle > 0) {
         angle = 0;
       }
-      document.getElementById('pressure').innerText = pressure + '==' + angle + '';
+      // document.getElementById('pressure').innerText = pressure + '==' + angle + '';
       this.http.get(arm5api, {params: {angle: angle + ''}}).subscribe((response) => {
         console.log('arm1', response);
       });
