@@ -11,6 +11,11 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     document.getElementById('joystick').style.display = 'block';
     document.getElementById('armbutton').style.display = 'none';
+    //  横屏检查
+    // const landscape2 = new landscape({
+    //   mode: 'landscape',
+    //   prefix: 'Shine',
+    // });
   }
 
   operationChanged(e) {

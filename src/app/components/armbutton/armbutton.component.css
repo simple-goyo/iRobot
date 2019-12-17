@@ -27,10 +27,15 @@
     rotateX(var(--rx, 0))
     rotateY(var(--ry, 0))
     translateZ(var(--tz, -12px));
+  opacity: 0.5 ;
 }
 
+.arm-button:active::before {
+   opacity: 1 ;
+ }
+
 .arm-button:hover::before {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+  box-shadow: 0 5px 15px rgb(0, 0, 0);
 }
 
 .arm-button::after {

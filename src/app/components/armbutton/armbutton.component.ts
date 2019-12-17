@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {AxiosService} from '../../services/axios.service';
+import * as urlConstant from '../../globals/url.constant';
 
 @Component({
   selector: 'app-armbutton',
@@ -11,7 +13,7 @@ export class ArmbuttonComponent implements OnInit {
   arm3Angle = 0;
   arm4Angle = 0;
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private axiosService: AxiosService) {
   }
 
   ngOnInit() {
@@ -87,9 +89,13 @@ export class ArmbuttonComponent implements OnInit {
         angle = this.arm4Angle;
         break;
     }
-    const arm234api = 'http://192.168.1.116:5000/' + id;
-    this.http.get(arm234api, {params: {angle: angle + ''}}).subscribe((response) => {
-      console.log('arm1', response);
+    // const arm234api = 'http://192.168.1.116:5000/' + id;
+    // this.http.get(arm234api, {params: {angle: angle + ''}}).subscribe((response) => {
+    //   console.log('arm1', response);
+    // });
+    const armUrl = urlConstant.getRosUrl(id);
+    this.axiosService.axiosGet(armUrl, {angle: angle + ''}).then((data) => {
+      console.log('arm', data);
     });
   }
 

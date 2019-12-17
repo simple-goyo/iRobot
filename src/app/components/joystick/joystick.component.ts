@@ -1,6 +1,9 @@
 import {Component, OnInit, Input, SimpleChanges, OnChanges} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {AxiosService} from '../../services/axios.service';
 import * as nipplejs from 'src/assets/lib/nipplejs';
+import * as urlConstant from '../../globals/url.constant';
+
 
 @Component({
   selector: 'app-joystick',
@@ -29,7 +32,7 @@ export class JoystickComponent implements OnInit, OnChanges {
   intervalTime;
   moveData;
 
-  constructor(public http: HttpClient) {
+  constructor(public http: HttpClient, private axiosService: AxiosService) {
   }
 
   ngOnInit() {
@@ -110,8 +113,10 @@ export class JoystickComponent implements OnInit, OnChanges {
   turtlebotOnStart(moveData) {
     // http
     // const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/json'})};
-    const goapi = 'http://192.168.1.116:5000/go';
-    const turnapi = 'http://192.168.1.116:5000/turn';
+    const goUrl = urlConstant.getRosUrl('go');
+    const turnUrl = urlConstant.getRosUrl('turn');
+    // 'http://192.168.1.116:5000/go';
+    // const turnapi = 'http://192.168.1.116:5000/turn';
     // console.log('Left:无人机向 => ' + angle + '移动' + distance + '个单位');
     console.log(moveData);
     let angle = '';
@@ -125,31 +130,31 @@ export class JoystickComponent implements OnInit, OnChanges {
     const turnSpeed = distance / 100;
     switch (angle) {
       case 'up':
-        this.http.get(goapi, {params: {go_speed: goSpeed + ''}}).subscribe((response) => {
-          console.log('前进', response);
+        this.axiosService.axiosGet(goUrl, {go_speed: goSpeed + ''}).then((data) => {
+          console.log('前进', data);
         });
         break;
       case 'down':
-        this.http.get(goapi, {params: {go_speed: -goSpeed + ''}}).subscribe((response) => {
-          console.log('后退', response);
+        this.axiosService.axiosGet(goUrl, {go_speed: -goSpeed + ''}).then((data) => {
+          console.log('后退', data);
         });
         break;
       case 'right':
-        this.http.get(turnapi, {params: {turn_speed: -turnSpeed + ''}}).subscribe((response) => {
-          console.log('右转', response);
+        this.axiosService.axiosGet(turnUrl, {turn_speed: -turnSpeed + ''}).then((data) => {
+          console.log('右转', data);
         });
         break;
       case 'left':
-        this.http.get(turnapi, {params: {turn_speed: turnSpeed + ''}}).subscribe((response) => {
-          console.log('左转', response);
+        this.axiosService.axiosGet(turnUrl, {turn_speed: turnSpeed + ''}).then((data) => {
+          console.log('左转', data);
         });
         break;
     }
   }
 
   armOnStart(moveData) {
-    const arm1api = 'http://192.168.1.116:5000/arm1';
-    const arm5api = 'http://192.168.1.116:5000/arm5';
+    const arm1Url = urlConstant.getRosUrl('arm1');
+    const arm5Url = urlConstant.getRosUrl('arm5');
     // console.log('Left:无人机向 => ' + angle + '移动' + distance + '个单位');
     let radian = moveData.angle.radian;
     const distance = moveData.distance;
@@ -164,8 +169,8 @@ export class JoystickComponent implements OnInit, OnChanges {
         angle = 0;
       }
       // document.getElementById('pressure').innerText = pressure + '==' + angle + '';
-      this.http.get(arm5api, {params: {angle: angle + ''}}).subscribe((response) => {
-        console.log('arm1', response);
+      this.axiosService.axiosGet(arm5Url, {angle: angle + ''}).then((data) => {
+        console.log('arm5', data);
       });
       return;
     }
@@ -175,8 +180,8 @@ export class JoystickComponent implements OnInit, OnChanges {
       radian = radian - 6.2817;
     }
     console.log(distance);
-    this.http.get(arm1api, {params: {angle: radian + ''}}).subscribe((response) => {
-      console.log('arm1', response);
+    this.axiosService.axiosGet(arm1Url, {angle: radian + ''}).then((data) => {
+      console.log('arm1', data);
     });
   }
 }
