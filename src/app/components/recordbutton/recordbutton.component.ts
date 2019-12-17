@@ -7,7 +7,7 @@ import {RecordService} from '../../services/record.service';
   styleUrls: ['./recordbutton.component.css']
 })
 export class RecordbuttonComponent implements OnInit {
-  @Output() public outer = new EventEmitter();
+  // @Output() public outer = new EventEmitter();
   operationMode = '';
 
   constructor(private recordService: RecordService) {
@@ -18,7 +18,7 @@ export class RecordbuttonComponent implements OnInit {
 
   chooseMode(e) {
     this.operationMode = e.currentTarget.id;
-    this.outer.emit(this.operationMode);
+    // this.outer.emit(this.operationMode);
     this.recordService.operationMode = this.operationMode;
     switch (this.operationMode) {
       case 'startRecord':
@@ -28,12 +28,13 @@ export class RecordbuttonComponent implements OnInit {
         document.getElementById('startReplay').style.display = 'none';
         break;
       case 'endRecord':
+        this.recordService.stopRecord();
         document.getElementById('startRecord').style.display = '';
         document.getElementById('endRecord').style.display = 'none';
         document.getElementById('startReplay').style.display = '';
         break;
       case 'startReplay':
-        this.recordService.replay();
+        this.recordService.replay(this.relplayEnd);
         document.getElementById('startRecord').style.display = 'none';
         document.getElementById('startReplay').style.display = 'none';
         document.getElementById('endReplay').style.display = '';
@@ -44,6 +45,12 @@ export class RecordbuttonComponent implements OnInit {
         document.getElementById('endReplay').style.display = 'none';
         break;
     }
+  }
+
+  relplayEnd() {
+    document.getElementById('startRecord').style.display = '';
+    document.getElementById('startReplay').style.display = '';
+    document.getElementById('endReplay').style.display = 'none';
   }
 
 }
