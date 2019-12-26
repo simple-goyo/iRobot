@@ -19,10 +19,10 @@ export class AxiosService {
   // }
 
   axiosPost(url, params) {
+    this.recordService.record('POST', url, params);
     return new Promise((resolve, reject) => {
       axios.post(url, params)
         .then(response => {
-          this.recordService.record('POST', url, params);
           resolve(response.data);
         }, err => {
           reject(err);
@@ -34,10 +34,10 @@ export class AxiosService {
   }
 
   axiosGet(url, param) {
+    this.recordService.record('GET', url, param);
     return new Promise((resolve, reject) => {
       axios.get(url, {params: param})
         .then(response => {
-          this.recordService.record('GET', url, param);
           resolve(response.data);
         }, err => {
           reject(err);
